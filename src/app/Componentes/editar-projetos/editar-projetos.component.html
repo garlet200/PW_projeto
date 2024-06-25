@@ -1,0 +1,113 @@
+<!--titulo da pagina-->
+<div class="container">
+  <h2>Projetos</h2>
+</div>
+
+<hr>
+
+<!--corpo da pagina com os cards de projetos-->
+<div class="container">
+  <div class="card-deck mb-3 col-md-12">
+
+    <!--Card (botão) de adicionar projetos-->
+    <button class="card col-md-3 align-items-stretch" (click)="openModal()">
+      <h1><i class="fas fa-plus"></i></h1>
+      <h4>Adicionar projeto</h4>
+    </button>
+
+    <!--Cards de projetos-->
+    <div class="card col-md-3" *ngFor="let t of projetos">
+      <img class="card-img-top" src="../../../assets/test.png" alt="Image">
+      <div class="card-body border">
+        <h5 class="card-title border">{{ t.titulo }}</h5>
+        <p class="card-text border">{{t.autor}}</p>
+        <p class="card-text border"><small class="text-muted">{{t.anoConclusao}}/{{t.semestreConclusao}}</small></p>
+      </div>
+      <div class="border text-right">
+        <!--BOTÃO DELETAR-->
+        <button class="btn btn-danger rounded" (click)="excluirTarefa(t.id)"><i class="fas fa-trash-alt"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal-->
+<div class="modal" tabindex="1" id="add-projeto">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"> Registrar Novo Projeto</h5>
+      </div>
+      <form [formGroup]="form" (ngSubmit)="salvarFormProjeto()">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="mb-3 col-md-12">
+              <label class="form-label">Titulo do Projeto</label>
+              <input type="text" class="form-control" formControlName ="tituloProjeto">
+              <div class="text-danger" *ngIf="isCampoValido('tituloProjeto')">
+                Campo Obrigatório
+              </div>
+            </div>
+            <div class="mb-3 col-md-12">
+              <label class="form-label">Autor</label>
+              <input type="text" class="form-control" formControlName ="autorProjeto">
+              <div class="text-danger" *ngIf="isCampoValido('autorProjeto')">
+                Campo Obrigatório
+              </div>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label>Ano de conclusão</label>
+              <select class="form-control" formControlName="anoConclusaoProjeto">
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+              </select>
+              <div class="text-danger" *ngIf="isCampoValido('anoConclusaoProjeto')">
+                Campo Obrigatório
+              </div>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label>Semestre de conclusão</label>
+              <select class="form-control" formControlName="semestreConclusaoProjeto">
+                <option value="1">1º Semestre</option>
+                <option value="2">2º Semestre</option>
+              </select>
+              <div class="text-danger" *ngIf="isCampoValido('semestreConclusaoProjeto')">
+                Campo Obrigatório
+              </div>
+            </div>
+<!--            <div class="mb-3 col-md-6">-->
+<!--              <label class="form-label">Link Figma</label>-->
+<!--              <input type="url" class="form-control" formControlName = "linkFigmaProjeto">-->
+<!--            </div>-->
+<!--            <div class="mb-3 col-md-6">-->
+<!--              <label class="form-label">Link video</label>-->
+<!--              <input type="url" class="form-control" formControlName = "linkYoutubeProjeto">-->
+<!--            </div>-->
+<!--            <div class="mb-3 col-md-6">-->
+<!--              <label for="formFile1" class="form-label">Relatorio</label>-->
+<!--              <input type="file" class="form-control" id="formFile1">-->
+<!--              <small id="passwordHelpBlock" class="form-text text-muted">-->
+<!--                *Apenas formato .pdf-->
+<!--              </small>-->
+<!--            </div>-->
+            <div class="mb-3 col-md-6">
+              <label class="form-label">Thumbnail</label>
+              <input type="file" class="form-control" (change)="onFileSelected($event)">
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"
+                  (click)="closeModal()">Fechar</button>
+          <button class="btn btn-success" type="submit">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
