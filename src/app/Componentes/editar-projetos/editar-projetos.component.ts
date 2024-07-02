@@ -84,7 +84,7 @@ export class EditarProjetosComponent implements OnInit {
     })
   }
 
-  excluirTarefa(id:number){
+  excluir(id:number){
     Swal.fire(
       {
         title: 'Você está certo disso?',
@@ -107,30 +107,39 @@ export class EditarProjetosComponent implements OnInit {
     });
   }
 
+  carregarInfoProjeto(projetoEditar: ProjetoInfo){
+    this.form.patchValue({
+      tituloProjeto: projetoEditar.titulo,
+
+    });
+    this.openModal();
+  }
+
   editarProjeto(){
     if(this.form.valid){
       const editarProjeto: ProjetoInfo = new ProjetoInfo(
-        this.form.value.tituloTarefa,
-        this.form.value.dataInicioTarefa,
-        this.form.value.dataConclusaoTarefa,
-        this.form.value.descricaoTarefa,
-        this.form.value.statusTarefa,
-        this.form.value.id,
-        this.form.value.imagem
+        this.form.value.tituloProjeto,
+        this.form.value.autorProjeto,
+        this.form.value.anoConclusaoProjeto,
+        this.form.value.semestreConclusaoProjeto,
+        this.form.value.linkFigmaProjeto,
+        this.form.value.linkYoutubeProjeto,
+        this.form.value.relatorioProjeto,
+        this.form.value.thumbnailProjeto
       );
       this.projetoService.atualizarProjeto(this.form.value.id, editarProjeto)
         .then(reposta => {
           if(reposta === 1){
-            Swal.fire('Sucesso!','Tarefa editada com sucesso.','success');
+            Swal.fire('Sucesso!','Projeto editado com sucesso.','success');
             this.form.reset();
             this.closeModal();
             this.listarProjetos();
           }else{
-            Swal.fire('Atenção','Nenhuma tarefa encontrada, ou nenhuma alteração' +
+            Swal.fire('Atenção','Nenhum projeto encontrado, ou nenhuma alteração' +
               ' necessária', 'info');
           }
         }).catch(error => {
-        Swal.fire('Cuidado!', 'Não foi possível editar a tarefa.', 'error');
+        Swal.fire('Cuidado!', 'Não foi possível editar o projeto.', 'error');
       });
     }else{
       Swal.fire('Cuidado!', 'Alguns campos estão incorretos', 'warning');
