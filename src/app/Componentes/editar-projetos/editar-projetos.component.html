@@ -1,5 +1,5 @@
 <!--titulo da pagina-->
-<div class="container">
+<div class="container mt-2">
   <h2>Projetos</h2>
 </div>
 
@@ -7,16 +7,16 @@
 
 <!--corpo da pagina com os cards de projetos-->
 <div class="container">
-  <div class="card-deck mb-3 col-md-12">
+  <div class="card-deck">
 
     <!--Card (botão) de adicionar projetos-->
-    <button class="card col-md-3 align-items-stretch align-middle" (click)="openModal()">
+    <button class="card col-md-4 align-items-stretch align-middle" (click)="openModal()">
       <h1><i class="fas fa-plus"></i></h1>
       <h4>Adicionar projeto</h4>
     </button>
 
     <!--Cards de projetos-->
-    <div class="card col-md-3" *ngFor="let t of projetos">
+    <div class="card col-md-4" *ngFor="let t of projetos">
       <img class="card-img-top" src="../../../assets/test.png" alt="Image">
       <div class="card-body border">
         <h5 class="card-title border">{{ t.titulo }}</h5>
@@ -41,7 +41,7 @@
       <form [formGroup]="form" (ngSubmit)="salvarFormProjeto()">
         <div class="modal-body">
           <div class="form-row">
-            <div class="mb-3 col-md-12">
+            <div class="mb-3 col-sm-12">
               <label class="form-label">Titulo do Projeto</label>
               <input type="text" class="form-control" formControlName ="tituloProjeto">
               <div class="text-danger" *ngIf="isCampoValido('tituloProjeto')">
@@ -80,24 +80,30 @@
                 Campo Obrigatório
               </div>
             </div>
-<!--            <div class="mb-3 col-md-6">-->
-<!--              <label class="form-label">Link Figma</label>-->
-<!--              <input type="url" class="form-control" formControlName = "linkFigmaProjeto">-->
-<!--            </div>-->
-<!--            <div class="mb-3 col-md-6">-->
-<!--              <label class="form-label">Link video</label>-->
-<!--              <input type="url" class="form-control" formControlName = "linkYoutubeProjeto">-->
-<!--            </div>-->
-<!--            <div class="mb-3 col-md-6">-->
-<!--              <label for="formFile1" class="form-label">Relatorio</label>-->
-<!--              <input type="file" class="form-control" id="formFile1">-->
-<!--              <small id="passwordHelpBlock" class="form-text text-muted">-->
-<!--                *Apenas formato .pdf-->
-<!--              </small>-->
-<!--            </div>-->
+            <div class="mb-3 col-md-6">
+              <label class="form-label">Protótipo</label>
+              <input type="url" class="form-control" formControlName = "linkFigmaProjeto">
+              <small class="form-text text-muted">
+                *Apenas links do Figma
+              </small>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label class="form-label">Video de apresentação</label>
+              <input type="url" class="form-control" formControlName = "linkYoutubeProjeto">
+              <small class="form-text text-muted">
+                *Apenas links do Youtube
+              </small>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="formFile1" class="form-label">Relatorio</label>
+              <input type="file" class="form-control" id="formFile1">
+              <small class="form-text text-muted">
+                *Apenas formato .pdf
+              </small>
+            </div>
             <div class="mb-3 col-md-6">
               <label class="form-label">Thumbnail</label>
-              <input type="file" class="form-control" (change)="onFileSelected($event)">
+              <input type="file" class="form-control">
             </div>
           </div>
         </div>

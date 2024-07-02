@@ -21,9 +21,9 @@ export class EditarProjetosComponent implements OnInit {
       autorProjeto: ['', Validators.required],
       anoConclusaoProjeto: ['', Validators.required],
       semestreConclusaoProjeto: ['', Validators.required],
-      // linkFigmaProjeto: [''],
-      // linkYoutubeProjeto: [''],
-      // relatorioProjeto: [''],
+      linkFigmaProjeto: [''],
+      linkYoutubeProjeto: [''],
+      relatorioProjeto: [''],
       thumbnailProjeto: [''],
     })
   }
@@ -42,9 +42,9 @@ export class EditarProjetosComponent implements OnInit {
         this.form.value.autorProjeto,
         this.form.value.anoConclusaoProjeto,
         this.form.value.semestreConclusaoProjeto,
-        // this.form.value.linkFigmaProjeto,
-        // this.form.value.linkYoutubeProjeto,
-        // this.form.value.relatorioProjeto,
+        this.form.value.linkFigmaProjeto,
+        this.form.value.linkYoutubeProjeto,
+        this.form.value.relatorioProjeto,
         this.form.value.thumbnailProjeto
       );
       console.log('Dados do projeto adicionado', novoProjeto)
@@ -64,7 +64,6 @@ export class EditarProjetosComponent implements OnInit {
       console.log("CAMPOS INVALIDOS ENCONTRADOS.");
       this.marcarCamposVazios();
       console.log("DADOS DOS CAMPOS: ", this.form.value);
-      console.log(this.base64string);
     }
   }
 
@@ -108,20 +107,34 @@ export class EditarProjetosComponent implements OnInit {
     });
   }
 
-  base64string: string = '';
-
-  onFileSelected(event: Event) {
-    const input= event.target as HTMLInputElement;
-
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        this.base64string = reader.result as string;
-      };
-
-      reader.readAsDataURL(file);
+  editarProjeto(){
+    if(this.form.valid){
+      const editarProjeto: ProjetoInfo = new ProjetoInfo(
+        this.form.value.tituloTarefa,
+        this.form.value.dataInicioTarefa,
+        this.form.value.dataConclusaoTarefa,
+        this.form.value.descricaoTarefa,
+        this.form.value.statusTarefa,
+        this.form.value.id,
+        this.form.value.imagem
+      );
+      this.projetoService.atualizarProjeto(this.form.value.id, editarProjeto)
+        .then(reposta => {
+          if(reposta === 1){
+            Swal.fire('Sucesso!','Tarefa editada com sucesso.','success');
+            this.form.reset();
+            this.closeModal();
+            this.listarProjetos();
+          }else{
+            Swal.fire('Atenção','Nenhuma tarefa encontrada, ou nenhuma alteração' +
+              ' necessária', 'info');
+          }
+        }).catch(error => {
+        Swal.fire('Cuidado!', 'Não foi possível editar a tarefa.', 'error');
+      });
+    }else{
+      Swal.fire('Cuidado!', 'Alguns campos estão incorretos', 'warning');
+      this.marcarCamposVazios();
     }
   }
 

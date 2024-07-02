@@ -11,9 +11,9 @@ export class ProjetosService extends Dexie {
   constructor() {
     super('ProjetoDB');
     this.version(1).stores({
-      projetos: '++id, titulo, autor, thumbnail, anoConclusao, semestreConclusao'
-        // 'anoConclusao, semestreConclusao, linkFigma' +
-        // 'linkYoutube, relatorio, thumbnail'
+      projetos: '++id, titulo, autor, thumbnail, anoConclusao, semestreConclusao' +
+        'anoConclusao, semestreConclusao, linkFigma' +
+        'linkYoutube, relatorio, thumbnail'
     });
     this.projetos = this.table('projetos');
   }
@@ -28,6 +28,10 @@ export class ProjetosService extends Dexie {
 
   async removerProjeto(id:number): Promise <void> {
     return await this.projetos.delete(id);
+  }
+
+  async atualizarProjeto(id: number, projeto: ProjetoInfo): Promise<number>{
+    return await this.projetos.update(id, projeto);
   }
 }
 

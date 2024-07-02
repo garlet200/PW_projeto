@@ -4,9 +4,9 @@ export class ProjetoInfo {
   autor: string;
   anoConclusao: number;
   semestreConclusao: number;
-  // linkFigma?: string;
-  // linkYoutube?: string;
-  // relatorio?: string;
+  linkFigma?: string;
+  linkYoutube?: string;
+  relatorio?: string;
   thumbnail?: string;
   id?: number;
 
@@ -14,9 +14,9 @@ export class ProjetoInfo {
               autor: string,
               anoConc: number,
               semestreConc: number,
-              // linkFigma?: string,
-              // linkYoutube?: string,
-              // relatorio?: string,
+              linkFigma?: string,
+              linkYoutube?: string,
+              relatorio?: string,
               thumbnail?: string,
               id?: number
   ) {
@@ -24,9 +24,9 @@ export class ProjetoInfo {
     this.autor = autor;
     this.anoConclusao = anoConc;
     this.semestreConclusao = semestreConc;
-    // this.linkFigma = linkFigma;
-    // this.linkYoutube = linkYoutube;
-    // this.relatorio = relatorio;
+    this.linkFigma = linkFigma;
+    this.linkYoutube = linkYoutube;
+    this.relatorio = relatorio;
     this.thumbnail = thumbnail;
     this.id = id;
   }
