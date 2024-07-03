@@ -130,19 +130,18 @@ export class EditarProjetosComponent implements OnInit {
       this.projetoService.atualizarProjeto(this.form.value.id, editarProjeto)
         .then(reposta => {
           if(reposta === 1){
-            Swal.fire('Sucesso!','Projeto editado com sucesso.','success');
+            Swal.fire('Pronto!','Projeto editado com sucesso.','success');
             this.form.reset();
             this.closeModal();
             this.listarProjetos();
           }else{
-            Swal.fire('Atenção','Nenhum projeto encontrado, ou nenhuma alteração' +
-              ' necessária', 'info');
+            Swal.fire('Atenção','Nenhum projeto encontrado, ou nenhuma alteração necessária', 'info');
           }
         }).catch(error => {
-        Swal.fire('Cuidado!', 'Não foi possível editar o projeto.', 'error');
+        Swal.fire('Atenção!', 'Não foi possível editar o projeto.', 'error');
       });
     }else{
-      Swal.fire('Cuidado!', 'Alguns campos estão incorretos', 'warning');
+      Swal.fire('Atenção!', 'Alguns campos estão incorretos', 'warning');
       this.marcarCamposVazios();
     }
   }

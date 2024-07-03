@@ -12,33 +12,33 @@
       <div class="row">
 
         <!-- Card (botão) de adicionar projetos -->
-        <div class="col-md-3 mb-4">
-          <button class="card h-100" (click)="openModal()">
-            <div class="card-body text-center">
-              <h1><i class="fas fa-plus"></i></h1>
-              <h4>Adicionar projeto</h4>
+        <div class="col-md-4 mb-4">
+          <button class="card-add border-0 w-100 h-100" (click)="openModal()">
+            <div class="card-body-add">
+              <h3><i class="fas fa-plus"></i></h3>
+              <h5>Adicionar projeto</h5>
             </div>
           </button>
         </div>
 
         <!-- Cards de projetos -->
-        <div class="col-md-3 mb-4" *ngFor="let t of projetos">
-          <div class="card h-100 p-0">
-            <img class="card-img-top" src="../../../assets/test.png" alt="Image">
-            <div class="card-body pt-1 pb-1 border">
-              <h5 class="card-title border">{{ t.titulo }}</h5>
-              <p class="card-text border">{{t.autor}}</p>
-              <p class="card-text border">
-                <small class="text-muted">{{t.anoConclusao}}/{{t.semestreConclusao}}</small>
-              </p>
-            </div>
-            <div class="border text-right">
-              <button class="btn btn-warning rounded mr-2" (click)="carregarInfoProjeto(t)">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button class="btn btn-danger rounded mr-2" (click)="excluir(t.id)">
-                <i class="fas fa-trash-alt"></i>
-              </button>
+        <div class="col-md-4 mb-4" *ngFor="let t of projetos">
+          <div class="card h-100">
+            <img class="card-img"  src="../../../assets/test.png" alt="Image">
+            <div class="card-body pt-1 pb-1">
+              <h5 class="card-title">{{ t.titulo }}</h5>
+              <div class="card-info">
+                <p class="card-text m-0">{{t.autor}}</p>
+                <p class="card-text">{{t.anoConclusao}}/{{t.semestreConclusao}}</p>
+              </div>
+              <div class="card-actions text-right p-2">
+                <button class="btn btn-warning round mr-2" (click)="carregarInfoProjeto(t)">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-danger round" (click)="excluir(t.id)">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>
