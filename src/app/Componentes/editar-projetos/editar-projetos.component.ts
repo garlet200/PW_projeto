@@ -12,8 +12,10 @@ import Swal from 'sweetalert2';
 })
 export class EditarProjetosComponent implements OnInit {
 
+  activeOption!: string;
   form: FormGroup;
   projetos: any [] = [];
+
 
   constructor( private projetoService: ProjetosService,
                private fb: FormBuilder) {
@@ -47,6 +49,11 @@ export class EditarProjetosComponent implements OnInit {
 
   salvarFormProjeto() {
     if (this.form.valid){
+      // Define o caminho da imagem padrão
+      const defaultThumbnail = '../../../assets/test.png';
+      // Verifica se a thumbnail está preenchida, caso contrário, atribui a imagem padrão
+      const thumbnailProjeto = this.form.value.thumbnailProjeto ? this.form.value.thumbnailProjeto : defaultThumbnail;
+
       const novoProjeto: ProjetoInfo = new ProjetoInfo(
         this.form.value.tituloProjeto,
         this.form.value.autorProjeto,
@@ -55,7 +62,7 @@ export class EditarProjetosComponent implements OnInit {
         this.form.value.linkFigmaProjeto,
         this.form.value.linkYoutubeProjeto,
         this.form.value.relatorioProjeto,
-        this.form.value.thumbnailProjeto,
+        thumbnailProjeto,
         undefined
       );
       console.log('Dados do projeto adicionado', novoProjeto)
@@ -64,7 +71,7 @@ export class EditarProjetosComponent implements OnInit {
           Swal.fire('Pronto!', 'Projeto salvo.', 'success');
           this.form.reset();
           this.closeModal();
-          this.listarProjetos();
+          this.listarProjetos(this.activeOption);
         }
       }).catch(respostaError => {
         Swal.fire('Não foi dessa vez', 'Não foi possível salvar a tarefa, ' +
@@ -90,37 +97,59 @@ export class EditarProjetosComponent implements OnInit {
     });
   }
 
-  listarProjetos() {
+  listarProjetos(option: string): void {
+    this.activeOption = option;
+    localStorage.setItem('activeOption', option);
+
+    switch (option) {
+      case 'oldest':
+        this.listarProjetosOldest();
+        break;
+      case 'newest':
+        this.listarProjetosNewest();
+        break;
+      case 'completed-oldest':
+        this.listarProjetosCompletosOldest();
+        break;
+      case 'completed-newest':
+        this.listarProjetosCompletosNewest();
+        break;
+    }
+  }
+
+  listarProjetosOldest() {
     this.projetoService.buscarProjetos().then(resposta => {
       this.projetos = resposta;
     })
   }
 
-  listarProjetosInverso() {
+  listarProjetosNewest() {
     this.projetoService.buscarProjetos().then(resposta => {
       this.projetos = resposta.reverse(); // Inverte a ordem dos projetos
     });
   }
 
-  listarProjetosAno() {
-    this.projetos.sort((a, b) => {
-      if (a.anoConclusao !== b.anoConclusao) {
-        return a.anoConclusao - b.anoConclusao;
-      } else {
-        return a.semestreConclusao - b.semestreConclusao;
-      }
+  listarProjetosCompletosOldest(): void {
+    this.projetoService.buscarProjetos().then(resposta => {
+      this.projetos = resposta.sort((a, b) => {
+        if (a.anoConclusao !== b.anoConclusao) {
+          return a.anoConclusao - b.anoConclusao;
+        } else {
+          return a.semestreConclusao - b.semestreConclusao;
+        }
+      });
     });
   }
 
-  listarProjetosAnoInverso() {
-    this.projetos.sort((a, b) => {
-      if (a.anoConclusao !== b.anoConclusao) {
-        // Ordena pelo ano de conclusão de forma decrescente
-        return b.anoConclusao - a.anoConclusao;
-      } else {
-        // Em caso de empate no ano de conclusão, ordena pelo semestre de conclusão
-        return b.semestreConclusao - a.semestreConclusao;
-      }
+  listarProjetosCompletosNewest(): void {
+    this.projetoService.buscarProjetos().then(resposta => {
+      this.projetos = resposta.sort((a, b) => {
+        if (a.anoConclusao !== b.anoConclusao) {
+          return b.anoConclusao - a.anoConclusao;
+        } else {
+          return b.semestreConclusao - a.semestreConclusao;
+        }
+      });
     });
   }
 
@@ -139,7 +168,7 @@ export class EditarProjetosComponent implements OnInit {
       if(tipoBotao.isConfirmed){
         this.projetoService.removerProjeto(id).then(()=>{
           Swal.fire('Deletado', 'O projeto foi deletado.', 'success');
-          this.listarProjetos();
+          this.listarProjetos(this.activeOption);
         });
       }
     }).catch(error => {
@@ -166,6 +195,11 @@ export class EditarProjetosComponent implements OnInit {
 
   editarProjeto(){
     if(this.form.valid){
+      // Define o caminho da imagem padrão
+      const defaultThumbnail = '../../../assets/test.png';
+      // Verifica se a thumbnail está preenchida, caso contrário, atribui a imagem padrão
+      const thumbnailProjeto = this.form.value.thumbnailProjeto ? this.form.value.thumbnailProjeto : defaultThumbnail;
+
       const editarProjeto: ProjetoInfo = new ProjetoInfo(
         this.form.value.tituloProjeto,
         this.form.value.autorProjeto,
@@ -174,7 +208,7 @@ export class EditarProjetosComponent implements OnInit {
         this.form.value.linkFigmaProjeto,
         this.form.value.linkYoutubeProjeto,
         this.form.value.relatorioProjeto,
-        this.form.value.thumbnailProjeto,
+        thumbnailProjeto,
         this.form.value.id,
       );
       this.projetoService.atualizarProjeto(this.form.value.id, editarProjeto)
@@ -183,7 +217,7 @@ export class EditarProjetosComponent implements OnInit {
             Swal.fire('Pronto!','Projeto editado com sucesso.','success');
             this.form.reset();
             this.closeModal();
-            this.listarProjetos();
+            this.listarProjetos(this.activeOption);
           }else{
             Swal.fire('Atenção','Nenhum projeto encontrado, ou nenhuma alteração necessária', 'info');
           }
@@ -196,7 +230,7 @@ export class EditarProjetosComponent implements OnInit {
     }
   }
 
-  onFileChange(event: any){
+  onFileChangeImage(event: any){
     const file = event.target.files[0];
     if(file){
       const reader = new FileReader();
@@ -207,7 +241,19 @@ export class EditarProjetosComponent implements OnInit {
     }
   }
 
+  onFileChangePDF(event: any){
+    const file = event.target.files[0];
+    if(file){
+      const reader = new FileReader();
+      reader.onload = (loadEvent) => {
+        this.form.patchValue({relatorioProjeto: loadEvent?.target?.result});
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   ngOnInit(): void {
-    this.listarProjetos();
+    this.activeOption = localStorage.getItem('activeOption') || 'oldest';
+    this.listarProjetos(this.activeOption);
   }
 }

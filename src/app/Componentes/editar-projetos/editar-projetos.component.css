@@ -97,17 +97,3 @@
     visibility: visible;
   }
 }
-
-@media screen and (max-width: 991px) and (min-width: 768px) {
-  .card {
-    font-size: 75%;
-  }
-
-  .card-info {
-    bottom: 25px;
-  }
-
-  .card-title {
-    font-size: 75%;
-  }
-}

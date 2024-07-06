@@ -9,13 +9,25 @@
       <!-- Botao ordenar projetos -->
       <div class="btn-group float-right">
         <button class="btn btn-dark dropdown-toggle" type="button" data-toggle="dropdown">
-          Ordenar projetos
+          Ordenar por
         </button>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-          <button class="dropdown-item"  (click)="listarProjetos()">Adicionados a mais tempo</button>
-          <button class="dropdown-item" (click)="listarProjetosInverso()">Adicionados recentemente</button>
-          <button class="dropdown-item" (click)="listarProjetosAno()">Concluidos a mais tempo</button>
-          <button class="dropdown-item" (click)="listarProjetosAnoInverso()">Concluidos recentemente</button>
+          <button class="dropdown-item" (click)="listarProjetos('oldest')"
+            [ngClass]="{'active': activeOption === 'oldest'}">
+            Adicionados a mais tempo
+          </button>
+          <button class="dropdown-item" (click)="listarProjetos('newest')"
+                  [ngClass]="{'active': activeOption === 'newest'}">
+            Adicionados recentemente
+          </button>
+          <button class="dropdown-item" (click)="listarProjetos('completed-oldest')"
+                  [ngClass]="{'active': activeOption === 'completed-oldest'}">
+            Concluídos a mais tempo
+          </button>
+          <button class="dropdown-item" (click)="listarProjetos('completed-newest')"
+                  [ngClass]="{'active': activeOption === 'completed-newest'}">
+            Concluídos recentemente
+          </button>
         </div>
       </div>
     </div>
@@ -40,9 +52,7 @@
         <div class="col-md-4 mb-4" *ngFor="let t of projetos">
           <div class="card">
             <div class="card-img-overlay"></div>
-            <div *ngIf="form.get('thumbnailProjeto'); then thenBlock else elseBlock"></div>
-            <ng-template #thenBlock><img class="card-img" src="{{t.thumbnail}}" alt="image"></ng-template>
-            <ng-template #elseBlock><img class="card-img" src="../../../assets/test.png" alt="No Image Available"></ng-template>
+            <img class="card-img" src="{{t.thumbnail}}" alt="image">
             <div class="card-body pt-1 pb-1">
               <h5 class="card-title" data-toggle="tooltip" title="{{ t.titulo }}">{{ t.titulo }}</h5>
               <div class="card-info">
@@ -50,17 +60,19 @@
                 <p class="card-text">{{t.anoConclusao}}/{{t.semestreConclusao}}</p>
               </div>
               <!--Botões de Ação-->
-              <div class="card-actions btn-group p-2 w-100">
-                <button class="btn btn-dark mr-1 round" data-toggle="tooltip" title="Vídeo de apresentação">
+              <div class="card-actions btn-group p-2">
+                <a class="btn btn-dark mr-1 round" data-toggle="tooltip" title="Vídeo de apresentação" href="{{t.linkYoutube}}" target="_blank">
                   <i class="fas fa-play"></i>
-                </button>
+                </a>
                 <button class="btn btn-dark mr-1 round" data-toggle="tooltip" title="Ver ralatório">
                   <i class="fas fa-file"></i>
                 </button>
-                <button class="btn btn-dark mr-1 round" data-toggle="tooltip" title="Editar" (click)="carregarInfoProjeto(t)">
+                <button class="btn btn-dark mr-1 round" data-toggle="tooltip" title="Editar"
+                        (click)="carregarInfoProjeto(t)">
                   <i class="fas fa-edit"></i>
                 </button>
-                <button class="btn btn-danger round" data-toggle="tooltip" title="Excluir" (click)="excluir(t.id)">
+                <button class="btn btn-danger round" data-toggle="tooltip" title="Excluir"
+                        (click)="excluir(t.id)">
                   <i class="fas fa-trash"></i>
                 </button>
               </div>
@@ -68,16 +80,17 @@
               <div class="dropdown card-actions-drop p-3">
                 <button class="btn btn-dark dropdown-toggle round" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opções</button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#" data-toggle="tooltip" title="Vídeo de apresentação">
+                  <a class="dropdown-item" href="{{t.linkYoutube}}" target="_blank"
+                     data-toggle="tooltip" title="Vídeo de apresentação">
                     <i class="fas fa-play"></i> Vídeo de apresentação
                   </a>
-                  <a class="dropdown-item" href="#" data-toggle="tooltip" title="Ver relatório">
+                  <a class="dropdown-item" data-toggle="tooltip" title="Ver relatório">
                     <i class="fas fa-file"></i> Ver relatório
                   </a>
-                  <a class="dropdown-item" href="#" data-toggle="tooltip" title="Editar" (click)="carregarInfoProjeto(t)">
+                  <a class="dropdown-item" data-toggle="tooltip" title="Editar" (click)="carregarInfoProjeto(t)">
                     <i class="fas fa-edit"></i> Editar
                   </a>
-                  <a class="dropdown-item" href="#" data-toggle="tooltip" title="Excluir" (click)="excluir(t.id)">
+                  <a class="dropdown-item" data-toggle="tooltip" title="Excluir" (click)="excluir(t.id)">
                     <i class="fas fa-trash"></i> Excluir
                   </a>
                 </div>
@@ -94,7 +107,14 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"> Registrar Novo Projeto</h5>
+        <h5 class="modal-title">
+          <ng-container *ngIf="form.value.id > 0; else novo">
+            Editar Projeto
+          </ng-container>
+          <ng-template #novo>
+            Adicionar Projeto
+          </ng-template>
+        </h5>
       </div>
       <form [formGroup]="form" (ngSubmit)="submitForm()">
         <div class="modal-body">
@@ -147,21 +167,24 @@
             </div>
             <div class="mb-3 col-md-6">
               <label class="form-label">Video de apresentação</label>
-              <input type="url" class="form-control" formControlName = "linkYoutubeProjeto">
+              <input type="url" class="form-control" formControlName="linkYoutubeProjeto"
+                     pattern="^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$"
+                     title="Por favor, insira um link válido do YouTube">
               <small class="form-text text-muted">
                 *Apenas links do Youtube
               </small>
             </div>
+
             <div class="mb-3 col-md-6">
-              <label for="formFile1" class="form-label">Relatorio</label>
-              <input type="file" class="form-control" id="formFile1">
+              <label class="form-label">Relatorio</label>
+              <input type="file" accept=".pdf" (change)="onFileChangePDF($event)">
               <small class="form-text text-muted">
                 *Apenas formato .pdf
               </small>
             </div>
             <div class="mb-3 col-md-6">
               <label class="form-label">Thumbnail</label>
-              <input type="file" accept="image/*" (change)="onFileChange($event)">
+              <input type="file" accept="image/*" (change)="onFileChangeImage($event)">
             </div>
           </div>
         </div>
