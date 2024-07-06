@@ -4,6 +4,7 @@ import { ProjetoInfo } from "../../app-core/model/projetoInfo";
 import { ProjetosService } from "../../app-core/services/projetos.service";
 declare var $ : any;
 import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-editar-projetos',
   templateUrl: './editar-projetos.component.html',
@@ -84,6 +85,34 @@ export class EditarProjetosComponent implements OnInit {
     })
   }
 
+  listarProjetosInverso() {
+    this.projetoService.buscarProjetos().then(resposta => {
+      this.projetos = resposta.reverse(); // Inverte a ordem dos projetos
+    });
+  }
+
+  listarProjetosAno() {
+    this.projetos.sort((a, b) => {
+      if (a.anoConclusao !== b.anoConclusao) {
+        return a.anoConclusao - b.anoConclusao;
+      } else {
+        return a.semestreConclusao - b.semestreConclusao;
+      }
+    });
+  }
+
+  listarProjetosAnoInverso() {
+    this.projetos.sort((a, b) => {
+      if (a.anoConclusao !== b.anoConclusao) {
+        // Ordena pelo ano de conclusão de forma decrescente
+        return b.anoConclusao - a.anoConclusao;
+      } else {
+        // Em caso de empate no ano de conclusão, ordena pelo semestre de conclusão
+        return b.semestreConclusao - a.semestreConclusao;
+      }
+    });
+  }
+
   excluir(id:number){
     Swal.fire(
       {
@@ -92,8 +121,9 @@ export class EditarProjetosComponent implements OnInit {
         icon: 'warning',
         showCancelButton: true,
         cancelButtonColor: '#d33',
-        confirmButtonText: 'sim, deletar projeto',
-        confirmButtonColor: '#3085d6'
+        confirmButtonText: 'Sim, deletar projeto',
+        confirmButtonColor: '#3085d6',
+        cancelButtonText: 'Cancelar',
       }).then((tipoBotao)=> {
       if(tipoBotao.isConfirmed){
         this.projetoService.removerProjeto(id).then(()=>{

@@ -1,6 +1,24 @@
 <!--titulo da pagina-->
-<div class="container mt-2">
-  <h2>Projetos</h2>
+<div class="container pt-3">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="btn-group">
+        <h2>Projetos</h2>
+      </div>
+      <!-- Botao ordenar projetos -->
+      <div class="btn-group float-right">
+        <button class="btn btn-dark dropdown-toggle" type="button" data-toggle="dropdown">
+          Ordenar projetos
+        </button>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+          <button class="dropdown-item"  (click)="listarProjetos()">Adicionados a mais tempo</button>
+          <button class="dropdown-item" (click)="listarProjetosInverso()">Adicionados recentemente</button>
+          <button class="dropdown-item" (click)="listarProjetosAno()">Concluidos a mais tempo</button>
+          <button class="dropdown-item" (click)="listarProjetosAnoInverso()">Concluidos recentemente</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <hr>
@@ -10,52 +28,37 @@
   <div class="row">
     <div class="col-md-12">
       <div class="row">
-
-        <!-- Card (botão) de adicionar projetos -->
+        <!--Card (botão) de adicionar projetos-->
         <div class="col-md-4 mb-4">
-          <button class="card-add border-0 w-100 h-100" (click)="openModal()">
+          <button class="card-add border-0 w-100 h-100 round" (click)="openModal()">
             <div class="card-body-add">
               <h3><i class="fas fa-plus"></i></h3>
               <h5>Adicionar projeto</h5>
             </div>
           </button>
         </div>
-
-        <!-- Cards de projetos -->
+        <!--Cards de projetos-->
         <div class="col-md-4 mb-4" *ngFor="let t of projetos">
           <div class="card h-100">
             <img class="card-img"  src="../../../assets/test.png" alt="Image">
             <div class="card-body pt-1 pb-1">
-              <h5 class="card-title">{{ t.titulo }}</h5>
+              <h5 class="card-title" data-toggle="tooltip" title="{{ t.titulo }}">{{ t.titulo }}</h5>
               <div class="card-info">
-                <p class="card-text m-0">{{t.autor}}</p>
+                <p class="card-text m-0" data-toggle="tooltip" title="{{t.autor}}">{{t.autor}}</p>
                 <p class="card-text">{{t.anoConclusao}}/{{t.semestreConclusao}}</p>
               </div>
-              <div class="dropdown text-center card-actions">
-                <button class="btn btn-dark round dropdown-toggle" type="button" data-toggle="dropdown">
+              <!--Botões de Ação-->
+              <div class="card-actions btn-group-vertical p-2 h-100">
+                <button class="btn btn-dark mr-1 round" data-toggle="tooltip" title="Vídeo de apresentação">
+                  <i class="fas fa-play"></i>
                 </button>
-                <div class="dropdown-menu  dropdown-menu-right">
-                  <button class="dropdown-item">
-                    <i class="fas fa-play"></i> Video
-                  </button>
-                  <button class="dropdown-item">
-                    <i class="fas fa-file"></i> Relatorio
-                  </button>
-                  <div class="dropdown-divider"></div>
-                  <button class="dropdown-item" (click)="carregarInfoProjeto(t)">
-                    <i class="fas fa-edit"></i> Editar
-                  </button>
-                  <button class="dropdown-item" (click)="excluir(t.id)">
-                    <i class="fas fa-trash-alt"></i> Excluir
-                  </button>
-                </div>
-              </div>
-
-              <div class="card-actions text-right p-2">
-                <button class="btn btn-warning round mr-2" (click)="carregarInfoProjeto(t)">
+                <button class="btn btn-dark mr-1" data-toggle="tooltip" title="Ver ralatório">
+                  <i class="fas fa-file"></i>
+                </button>
+                <button class="btn btn-dark mr-1" data-toggle="tooltip" title="Editar" (click)="carregarInfoProjeto(t)">
                   <i class="fas fa-edit"></i>
                 </button>
-                <button class="btn btn-danger round" (click)="excluir(t.id)">
+                <button class="btn btn-danger round" data-toggle="tooltip" title="Excluir" (click)="excluir(t.id)">
                   <i class="fas fa-trash"></i>
                 </button>
               </div>
