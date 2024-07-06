@@ -12,7 +12,6 @@ import Swal from 'sweetalert2';
 })
 export class EditarProjetosComponent implements OnInit {
 
-  visualizarProjeto: any;
   form: FormGroup;
   projetos: any [] = [];
 
@@ -26,7 +25,7 @@ export class EditarProjetosComponent implements OnInit {
       linkFigmaProjeto: [''],
       linkYoutubeProjeto: [''],
       relatorioProjeto: [''],
-      thumbnailProjeto: [''],
+      thumbnailProjeto: [],
       id: [0],
     })
   }
@@ -162,6 +161,7 @@ export class EditarProjetosComponent implements OnInit {
       id: projetoEditar.id
     });
     this.openModal();
+    console.log('Dados do projeto ', projetoEditar);
   }
 
   editarProjeto(){
@@ -201,7 +201,7 @@ export class EditarProjetosComponent implements OnInit {
     if(file){
       const reader = new FileReader();
       reader.onload = (loadEvent) => {
-        this.form.patchValue({imagem: loadEvent?.target?.result});
+        this.form.patchValue({thumbnailProjeto: loadEvent?.target?.result});
       };
       reader.readAsDataURL(file);
     }

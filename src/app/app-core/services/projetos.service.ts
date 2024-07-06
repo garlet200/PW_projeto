@@ -11,7 +11,7 @@ export class ProjetosService extends Dexie {
   constructor() {
     super('ProjetoDB');
     this.version(1).stores({
-      projetos: '++id, titulo, autor, thumbnail, anoConclusao, semestreConclusao, anoConclusao, semestreConclusao, linkFigma, linkYoutube, relatorio, thumbnail'
+      projetos: '++id, titulo, autor, anoConclusao, semestreConclusao, linkFigma, linkYoutube, relatorio, thumbnail'
     });
     this.projetos = this.table('projetos');
   }
