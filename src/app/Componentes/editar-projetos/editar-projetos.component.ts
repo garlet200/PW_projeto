@@ -12,11 +12,12 @@ import Swal from 'sweetalert2';
 })
 export class EditarProjetosComponent implements OnInit {
 
+  visualizarProjeto: any;
   form: FormGroup;
   projetos: any [] = [];
+
   constructor( private projetoService: ProjetosService,
                private fb: FormBuilder) {
-
     this.form =  this.fb.group ({
       tituloProjeto: ['', Validators.required],
       autorProjeto: ['', Validators.required],
@@ -26,6 +27,7 @@ export class EditarProjetosComponent implements OnInit {
       linkYoutubeProjeto: [''],
       relatorioProjeto: [''],
       thumbnailProjeto: [''],
+      id: [0],
     })
   }
 
@@ -34,6 +36,14 @@ export class EditarProjetosComponent implements OnInit {
   }
   closeModal(){
     $('#add-projeto').modal('hide');
+  }
+
+  submitForm(){
+    if(this.form.value.id > 0){
+      this.editarProjeto();
+    }else{
+      this.salvarFormProjeto();
+    }
   }
 
   salvarFormProjeto() {
@@ -46,7 +56,8 @@ export class EditarProjetosComponent implements OnInit {
         this.form.value.linkFigmaProjeto,
         this.form.value.linkYoutubeProjeto,
         this.form.value.relatorioProjeto,
-        this.form.value.thumbnailProjeto
+        this.form.value.thumbnailProjeto,
+        undefined
       );
       console.log('Dados do projeto adicionado', novoProjeto)
       this.projetoService.adicionarProjeto(novoProjeto).then(resposta =>{
@@ -63,8 +74,9 @@ export class EditarProjetosComponent implements OnInit {
       })
     }else {
       console.log("CAMPOS INVALIDOS ENCONTRADOS.");
-      this.marcarCamposVazios();
       console.log("DADOS DOS CAMPOS: ", this.form.value);
+      Swal.fire('Atenção', 'Algo está incorreto.', 'warning');
+      this.marcarCamposVazios();
     }
   }
 
@@ -140,7 +152,14 @@ export class EditarProjetosComponent implements OnInit {
   carregarInfoProjeto(projetoEditar: ProjetoInfo){
     this.form.patchValue({
       tituloProjeto: projetoEditar.titulo,
-
+      autorProjeto: projetoEditar.autor,
+      anoConclusaoProjeto: projetoEditar.anoConclusao,
+      semestreConclusaoProjeto: projetoEditar.semestreConclusao,
+      linkFigmaProjeto: projetoEditar.linkFigma,
+      linkYoutubeProjeto: projetoEditar.linkYoutube,
+      relatorioProjeto: projetoEditar.relatorio,
+      thumbnailProjeto: projetoEditar.thumbnail,
+      id: projetoEditar.id
     });
     this.openModal();
   }
@@ -155,7 +174,8 @@ export class EditarProjetosComponent implements OnInit {
         this.form.value.linkFigmaProjeto,
         this.form.value.linkYoutubeProjeto,
         this.form.value.relatorioProjeto,
-        this.form.value.thumbnailProjeto
+        this.form.value.thumbnailProjeto,
+        this.form.value.id,
       );
       this.projetoService.atualizarProjeto(this.form.value.id, editarProjeto)
         .then(reposta => {
@@ -173,6 +193,17 @@ export class EditarProjetosComponent implements OnInit {
     }else{
       Swal.fire('Atenção!', 'Alguns campos estão incorretos', 'warning');
       this.marcarCamposVazios();
+    }
+  }
+
+  onFileChange(event: any){
+    const file = event.target.files[0];
+    if(file){
+      const reader = new FileReader();
+      reader.onload = (loadEvent) => {
+        this.form.patchValue({imagem: loadEvent?.target?.result});
+      };
+      reader.readAsDataURL(file);
     }
   }
 

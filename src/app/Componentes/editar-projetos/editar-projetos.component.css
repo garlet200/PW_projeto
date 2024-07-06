@@ -38,7 +38,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: calc(100% - 80px);
+  max-width: calc(100% - 30px);
 }
 
 .card-info {
@@ -53,7 +53,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: calc(100% - 80px);
+  max-width: calc(100% - 30px);
 }
 
 .card-actions {
@@ -64,9 +64,39 @@
   transition: opacity 0.3s ease-in-out;
 }
 
+.card-actions-drop {
+  position: absolute;
+  top: 0;
+  right: 0;
+  visibility: hidden;
+}
+
 .card:hover .card-body,
 .card:hover .card-info,
 .card:hover .card-actions {
   opacity: 1;
 }
 
+@media screen and (max-width: 767px) {
+  .card-actions {
+    visibility: hidden;
+  }
+
+  .card-actions-drop {
+    visibility: visible;
+  }
+}
+
+@media screen and (max-width: 991px) and (min-width: 768px) {
+  .card {
+    font-size: 75%;
+  }
+
+  .card-info {
+    bottom: 25px;
+  }
+
+  .card-title {
+    font-size: 75%;
+  }
+}
