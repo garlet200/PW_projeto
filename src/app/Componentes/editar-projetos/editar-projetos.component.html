@@ -31,6 +31,26 @@
                 <p class="card-text m-0">{{t.autor}}</p>
                 <p class="card-text">{{t.anoConclusao}}/{{t.semestreConclusao}}</p>
               </div>
+              <div class="dropdown text-center card-actions">
+                <button class="btn btn-dark round dropdown-toggle" type="button" data-toggle="dropdown">
+                </button>
+                <div class="dropdown-menu  dropdown-menu-right">
+                  <button class="dropdown-item">
+                    <i class="fas fa-play"></i> Video
+                  </button>
+                  <button class="dropdown-item">
+                    <i class="fas fa-file"></i> Relatorio
+                  </button>
+                  <div class="dropdown-divider"></div>
+                  <button class="dropdown-item" (click)="carregarInfoProjeto(t)">
+                    <i class="fas fa-edit"></i> Editar
+                  </button>
+                  <button class="dropdown-item" (click)="excluir(t.id)">
+                    <i class="fas fa-trash-alt"></i> Excluir
+                  </button>
+                </div>
+              </div>
+
               <div class="card-actions text-right p-2">
                 <button class="btn btn-warning round mr-2" (click)="carregarInfoProjeto(t)">
                   <i class="fas fa-edit"></i>

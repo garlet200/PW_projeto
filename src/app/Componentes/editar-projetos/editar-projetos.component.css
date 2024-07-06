@@ -11,12 +11,6 @@
 .card {
   position: relative;
   border-radius: 15px;
-  overflow: hidden;
-}
-
-.card-img {
-  width: 100%;
-  display: block;
 }
 
 .card-body {
@@ -31,6 +25,12 @@
   transition: opacity 0.3s ease-in-out;
 }
 
+.card-img {
+  border-radius: 15px;
+  width: 100%;
+  display: block;
+}
+
 .card-title {
   position: absolute;
   bottom: 0;
@@ -41,17 +41,19 @@
   max-width: calc(100% - 30px);
 }
 
-.card-title:hover {
-  background-color: wheat;
-  word-wrap: break-word; /* Permite a quebra de palavras longas */
-  text-overflow: unset;
-}
-
 .card-info {
   position: absolute;
   bottom: 40px;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
+  width: 100%;
+}
+
+.card-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 30px);
 }
 
 .card-actions {
@@ -66,4 +68,15 @@
 .card:hover .card-info,
 .card:hover .card-actions {
   opacity: 1;
+}
+
+.dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+}
+
+.dropdown-menu {
+  position: relative;
+  z-index: 1000;
 }
