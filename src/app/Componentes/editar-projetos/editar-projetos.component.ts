@@ -16,7 +16,6 @@ export class EditarProjetosComponent implements OnInit {
   form: FormGroup;
   projetos: any [] = [];
 
-
   constructor( private projetoService: ProjetosService,
                private fb: FormBuilder) {
     this.form =  this.fb.group ({
@@ -32,6 +31,7 @@ export class EditarProjetosComponent implements OnInit {
     })
   }
 
+  //Abrir e fechar o modal
   openModal(){
     $('#add-projeto').modal('show');
   }
@@ -39,6 +39,7 @@ export class EditarProjetosComponent implements OnInit {
     $('#add-projeto').modal('hide');
   }
 
+  //Verifica se o conteudo do modal é referente a um projeto novo ou ediçao de um projeto já registrado e executa o método adequada
   submitForm(){
     if(this.form.value.id > 0){
       this.editarProjeto();
@@ -47,6 +48,7 @@ export class EditarProjetosComponent implements OnInit {
     }
   }
 
+  //salva o formulario de projeto
   salvarFormProjeto() {
     if (this.form.valid){
       // Define o caminho da imagem padrão
@@ -97,9 +99,10 @@ export class EditarProjetosComponent implements OnInit {
     });
   }
 
+  //verifica e salva a ultima opcao de ordem de listagem deporjetos
   listarProjetos(option: string): void {
     this.activeOption = option; // Define a opção ativa com o valor fornecido como argumento.
-    localStorage.setItem('activeOption', option); // Armazena a opção ativa no localStorage para persistência.
+    localStorage.setItem('activeOption', option); // Armazena a opção ativa no localStorage.
 
     // Verifica o valor da opção e chama o método correspondente.
     switch (option) {
@@ -118,18 +121,21 @@ export class EditarProjetosComponent implements OnInit {
     }
   }
 
+  //lista os projetos a partir do adicionado a mais tempo (visualizacao padrao)
   listarProjetosOldest() {
     this.projetoService.buscarProjetos().then(resposta => {
       this.projetos = resposta;
     })
   }
 
+  //lista os projetos a partir do adicionado mais recentemente
   listarProjetosNewest() {
     this.projetoService.buscarProjetos().then(resposta => {
       this.projetos = resposta.reverse(); // Inverte a ordem dos projetos
     });
   }
 
+  //lista os projetos a partir da data de conclusao mais antiga
   listarProjetosCompletosOldest(): void {
     this.projetoService.buscarProjetos().then(resposta => {
       this.projetos = resposta.sort((a, b) => {
@@ -142,6 +148,7 @@ export class EditarProjetosComponent implements OnInit {
     });
   }
 
+  //lista os projetos a partir da data de conclusao mais recente
   listarProjetosCompletosNewest(): void {
     this.projetoService.buscarProjetos().then(resposta => {
       this.projetos = resposta.sort((a, b) => {
@@ -154,6 +161,7 @@ export class EditarProjetosComponent implements OnInit {
     });
   }
 
+  //executa o serviço para excluir projetos
   excluir(id:number){
     Swal.fire(
       {
@@ -178,6 +186,7 @@ export class EditarProjetosComponent implements OnInit {
     });
   }
 
+  //Carrega e mostra as informaçoes de um projeto em um modal para ediçao
   carregarInfoProjeto(projetoEditar: ProjetoInfo){
     this.form.patchValue({
       tituloProjeto: projetoEditar.titulo,
@@ -194,6 +203,7 @@ export class EditarProjetosComponent implements OnInit {
     console.log('Dados do projeto ', projetoEditar);
   }
 
+  //sobreescreve dados de um projeto ja existente
   editarProjeto(){
     if(this.form.valid){
       // Define o caminho da imagem padrão
@@ -231,6 +241,7 @@ export class EditarProjetosComponent implements OnInit {
     }
   }
 
+  //Salva arquivos de imagem em base64
   onFileChangeImage(event: any){
     const file = event.target.files[0];
     if(file){
@@ -242,6 +253,7 @@ export class EditarProjetosComponent implements OnInit {
     }
   }
 
+  //Salva .pdf de imagem em base64
   onFileChangePDF(event: any){
     const file = event.target.files[0];
     if(file){
@@ -253,6 +265,7 @@ export class EditarProjetosComponent implements OnInit {
     }
   }
 
+  //Verifica qual o metodo de ordenacao escolhido e executa a listagem dos projetos
   ngOnInit(): void {
     this.activeOption = localStorage.getItem('activeOption') || 'oldest';
     this.listarProjetos(this.activeOption);

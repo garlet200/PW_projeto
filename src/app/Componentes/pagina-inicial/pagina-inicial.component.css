@@ -21,23 +21,16 @@ body {
 }
 
 .hero .btn {
-  /* Positioning and sizing */
   display: block;
   width: 200px;
-
-  /* Padding and margins */
   padding: 1em;
   margin-top: 50px;
   margin-left: auto;
   margin-right: auto;
-
-  /* Text styles */
-  color: black; /* CHANGE THIS LINE */
+  color: black;
   text-decoration: none;
   font-size: 1.5em;
-
-  /* Border styles */
-  border: 3px solid black; /* CHANGE THIS LINE */
+  border: 3px solid black;
   border-radius: 20px;
 }
 
