@@ -6,6 +6,12 @@
   min-height: 100vh;
 }
 
-.about-text {
-  padding: 60px;
+.about-image {
+  text-align: center;
 }
+
+.about-image img{
+  max-width: 60vh;
+}
+
+
