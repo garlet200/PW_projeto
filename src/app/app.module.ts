@@ -7,8 +7,9 @@ import { CabecalhoComponent } from './Componentes/cabecalho/cabecalho.component'
 import { RodapeComponent } from './Componentes/rodape/rodape.component';
 import { PaginaInicialComponent } from './Componentes/pagina-inicial/pagina-inicial.component';
 import { EditarProjetosComponent } from './Componentes/editar-projetos/editar-projetos.component';
-import { ListarProjetosComponent } from './Componentes/listar-projetos/listar-projetos.component';
+import { SobreComponent } from './Componentes/sobre/sobre.component';
 import { ReactiveFormsModule } from "@angular/forms";
+
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { ReactiveFormsModule } from "@angular/forms";
     RodapeComponent,
     PaginaInicialComponent,
     EditarProjetosComponent,
-    ListarProjetosComponent
+    SobreComponent,
   ],
   imports: [
     BrowserModule,

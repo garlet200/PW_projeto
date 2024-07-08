@@ -98,21 +98,22 @@ export class EditarProjetosComponent implements OnInit {
   }
 
   listarProjetos(option: string): void {
-    this.activeOption = option;
-    localStorage.setItem('activeOption', option);
+    this.activeOption = option; // Define a opção ativa com o valor fornecido como argumento.
+    localStorage.setItem('activeOption', option); // Armazena a opção ativa no localStorage para persistência.
 
+    // Verifica o valor da opção e chama o método correspondente.
     switch (option) {
       case 'oldest':
-        this.listarProjetosOldest();
+        this.listarProjetosOldest(); // Chama o método para listar os projetos mais antigos.
         break;
       case 'newest':
-        this.listarProjetosNewest();
+        this.listarProjetosNewest(); // Chama o método para listar os projetos mais recentes.
         break;
       case 'completed-oldest':
-        this.listarProjetosCompletosOldest();
+        this.listarProjetosCompletosOldest(); // Chama o método para listar os projetos completos mais antigos.
         break;
       case 'completed-newest':
-        this.listarProjetosCompletosNewest();
+        this.listarProjetosCompletosNewest(); // Chama o método para listar os projetos completos mais recentes.
         break;
     }
   }

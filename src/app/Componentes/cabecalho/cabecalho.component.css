@@ -1,0 +1,41 @@
+.navbar {
+  margin-top: 10px;
+  border-radius: 10px;
+  padding: 0.5rem;
+}
+
+.navbar-brand {
+  float: left;
+}
+
+.nav-link {
+  color: purple;
+  font-weight: 500;
+  position: relative;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: black;
+}
+
+.nav-link::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background-color: #7655a3;
+  visibility: hidden;
+  transition: 0.3s ease-in-out;
+}
+
+.nav-link:hover::before {
+  width: 100%;
+  visibility: visible;
+}
+
+.container-fluid {
+  padding-right: 80px;
+}

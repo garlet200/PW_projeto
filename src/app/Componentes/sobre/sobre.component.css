@@ -1,0 +1,11 @@
+.spacer {
+  height: 105px;
+}
+
+.container-body {
+  min-height: 100vh;
+}
+
+.about-text {
+  padding: 60px;
+}

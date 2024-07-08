@@ -2,6 +2,14 @@
   border-radius: 10px;
 }
 
+.spacer {
+  height: 105px;
+}
+
+.container-body {
+  min-height: 100vh;
+}
+
 .card:hover, .card-add:hover {
   transform: scale(1.05);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -14,6 +22,10 @@
   border-radius: 15px;
   overflow: hidden;
   width: 100%;
+}
+
+.card-add {
+  height: 200px;
 }
 
 .card-body {
